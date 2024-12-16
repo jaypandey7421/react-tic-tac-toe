@@ -4,7 +4,8 @@ import Control from './Control';
 
 export default function GameBoard() {
     const [celVal, setCellVal] = useState([Array(9).fill(null)]);
-    const currentVal = celVal[celVal.length -1];
+    const [moveCount, setMoveCount] = useState(0);
+    const currentVal = celVal[moveCount];
     const [turn , setTurn] = useState('X');
 
     function handleClick(i){
@@ -15,10 +16,12 @@ export default function GameBoard() {
             swapVal[i] = 'X';
             setCellVal([...celVal, swapVal]);
             setTurn('O');
+            setMoveCount((pre)=> pre+1);
         }else{
             swapVal[i] = 'O';
             setCellVal([...celVal, swapVal]);
             setTurn('X');
+            setMoveCount((pre)=> pre+1);
         }
     }
 
@@ -34,7 +37,10 @@ export default function GameBoard() {
     <div className='game-board'>
         <h1>{message}</h1>
         <CellBoard value={currentVal} handleClick={handleClick} />
-        <Control />
+        <Control restart={restartGame}  
+                 setCellVal={setCellVal} 
+                 setMoveCount={setMoveCount}
+                 moveCount={moveCount}/>
     </div>
   );
 }
@@ -59,4 +65,9 @@ function winner(currentVal){
     }
 
     return null;
+}
+
+function restartGame( setCellVal, setMoveCount){
+    setCellVal([Array(9).fill(null)]);
+    setMoveCount(0);
 }
