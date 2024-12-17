@@ -1,73 +1,63 @@
-import React, { useState } from 'react'
-import CellBoard from './CellBoard'
-import Control from './Control';
+import React, { useEffect, useState } from 'react'
+import Boxes from './Boxes'
+import Controlers from './Controlers'
 
 export default function GameBoard() {
-    const [celVal, setCellVal] = useState([Array(9).fill(null)]);
-    const [moveCount, setMoveCount] = useState(0);
-    const currentVal = celVal[moveCount];
-    const [turn , setTurn] = useState('X');
+  const [gameHistory, setGameHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const [turn, setTurn] = useState('X');
+  const boardValue = [...gameHistory[currentMove]];
 
-    function handleClick(i){
-        if(currentVal[i] || winner(currentVal)) return;
+  function handleBoxClick(i){
+    if(boardValue[i] != null || decideWinner(boardValue)) return;
 
-        const swapVal = currentVal.slice();
-        if(turn === 'X'){
-            swapVal[i] = 'X';
-            setCellVal([...celVal, swapVal]);
-            setTurn('O');
-            setMoveCount((pre)=> pre+1);
-        }else{
-            swapVal[i] = 'O';
-            setCellVal([...celVal, swapVal]);
-            setTurn('X');
-            setMoveCount((pre)=> pre+1);
-        }
+    let tempVal = [...gameHistory[currentMove]];
+    if(turn === 'X'){
+      tempVal[i] = 'X'; 
+      setTurn('O')
+      setGameHistory([...gameHistory.slice(0, currentMove + 1), tempVal]);
+      setCurrentMove(pre => pre += 1);
+    }else{
+      tempVal[i] = 'O';
+      setTurn('X');
+      setGameHistory([...gameHistory.slice(0, currentMove + 1), tempVal]);
+      setCurrentMove(pre => pre += 1);
     }
-
-   const stats = winner(currentVal);
-   let message;
-   if(stats){
-        message = `Winner is: ${stats}`;
-   }else{
-        message = `Turn: ${turn}`;
-   }
+  }
+ 
+  const winner = decideWinner(boardValue);
+  let status = winner ?  `Winner: ${winner}`: `Turn: ${turn}`;
 
   return (
-    <div className='game-board'>
-        <h1>{message}</h1>
-        <CellBoard value={currentVal} handleClick={handleClick} />
-        <Control restart={restartGame}  
-                 setCellVal={setCellVal} 
-                 setMoveCount={setMoveCount}
-                 moveCount={moveCount}/>
-    </div>
-  );
+    <section className="game-board">
+        <h1 className='game-status'>{status}</h1>
+        <Boxes boardValue={boardValue} handleBoxClick={handleBoxClick} />
+        <Controlers setGameHistory={setGameHistory}
+                    setCurrentMove={setCurrentMove}
+                    length={gameHistory.length}
+                    currentMove={currentMove} />
+    </section>
+  )
 }
 
-function winner(currentVal){
-    const list = [
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,4,8],
-        [2,4,6]
-    ];
-    for(let i=0; i< list.length; i++){
-        const [a,b,c] = list[i];
-        if(currentVal[a] && currentVal[a]===currentVal[b] && currentVal[a]===currentVal[c]){
-            //console.log(`Winner is: ${currentVal[a]}`);
-            return currentVal[a];
-        }
+function decideWinner(boardValue){
+  const winPath = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+  ];
+
+  for(let i =0; i< 8; i++){
+    let [a, b, c] = winPath[i];
+    if(boardValue[a] && boardValue[a]=== boardValue[b] && boardValue[a]=== boardValue[c]) {
+      return boardValue[a];
     }
+  }
 
-    return null;
-}
-
-function restartGame( setCellVal, setMoveCount){
-    setCellVal([Array(9).fill(null)]);
-    setMoveCount(0);
+  return null;
 }

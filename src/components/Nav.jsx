@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Nav() {
   return (
-    <div>Nav</div>
+    <nav>Tic-Tac-Toe</nav>
   )
 }
