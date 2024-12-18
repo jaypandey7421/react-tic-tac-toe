@@ -16,12 +16,12 @@ export default function GameBoard() {
       tempVal[i] = 'X'; 
       setTurn('O')
       setGameHistory([...gameHistory.slice(0, currentMove + 1), tempVal]);
-      setCurrentMove(pre => pre += 1);
+      setCurrentMove(pre => pre + 1);
     }else{
       tempVal[i] = 'O';
       setTurn('X');
       setGameHistory([...gameHistory.slice(0, currentMove + 1), tempVal]);
-      setCurrentMove(pre => pre += 1);
+      setCurrentMove(pre => pre + 1);
     }
   }
  
@@ -35,7 +35,8 @@ export default function GameBoard() {
         <Controlers setGameHistory={setGameHistory}
                     setCurrentMove={setCurrentMove}
                     length={gameHistory.length}
-                    currentMove={currentMove} />
+                    currentMove={currentMove}
+                    setTurn={ setTurn} />
     </section>
   )
 }

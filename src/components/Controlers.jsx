@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function Controlers({setGameHistory, setCurrentMove, length, currentMove}) {
+export default function Controlers({setGameHistory, setCurrentMove, length, currentMove, setTurn}) {
 
   function restart(){
     setCurrentMove(0);
@@ -10,12 +10,14 @@ export default function Controlers({setGameHistory, setCurrentMove, length, curr
 
   function moveBack(){
     if(currentMove === 0) return
-    setCurrentMove(pre => pre -= 1);
+    setCurrentMove(pre => pre - 1);
+    setTurn(pre => (pre === 'X'? 'O': 'X'))
   }
 
   function moveForward(){
     if(currentMove + 1 < length){
-      setCurrentMove(pre => pre += 1);
+      setCurrentMove(pre => pre + 1);
+      setTurn(pre => (pre === 'X'? 'O': 'X'))
     }
   }
 

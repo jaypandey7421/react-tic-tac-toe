@@ -24,12 +24,13 @@ nav{
 /*   +++++++++++++++++ Game-Board +++++++++++++++ */
 .game-board{
   width: 300px;
-  margin: 10% auto auto;
+  margin: 2.25rem auto auto;
 }
 .game-status{
   line-height: 50px;
   text-align: center;
   font-size: 2rem;
+  margin-bottom: 2.25rem;
   color: #299ea0;
 }
 
@@ -45,6 +46,7 @@ nav{
   line-height: 100px;
   font-size: 2em;
   color:#3CACAE;
+  cursor: pointer;
 }
 .border-right{
   border-right: 5px solid #3CACAE;
@@ -60,18 +62,36 @@ nav{
   width: 300px;
   height: 90px;
   border-radius: 20px 20px 0 0;
-  background-color: bisque;
   text-align: center;
+  box-shadow: 0 0 10px 4px #00B1B0;
 }
 .control-btn{
-  padding: 8px;
-  margin-right: 5px;
+  padding: 10px;
+  margin-right: 1em;
+  margin-left: 1em;
+  color: #00B1B0;
+  border: 2px solid;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.control-btn:hover{
+  translate: -2px;
+  box-shadow: 0 0 5px 2px #00B1B0;
 }
 hr{
   width: 20px;
   height: 4px;
   margin: 5px auto 1em auto;
-  background-color: black;
+  background-color: #00B1B0;
   border: none;
   border-radius: 2px;
+}
+
+@media only screen and (max-width: 450px) {
+  .game-status{
+    margin-bottom: 3em;
+  }
+  .game-board{
+    margin-top: 6em;
+  }
 }
