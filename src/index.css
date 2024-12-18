@@ -89,7 +89,7 @@ hr{
 
 @media only screen and (max-width: 450px) {
   .game-status{
-    margin-bottom: 3em;
+    margin-bottom: 1em;
   }
   .game-board{
     margin-top: 6em;
